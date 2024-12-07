@@ -50,8 +50,6 @@ export class LoginComponent {
 
   public login(): void {
     if (!this.loginForm.valid) {
-      console.log('Email ou senha inválido');
-
       this.snackBar.openFromComponent(AlertComponent, {
         duration: 5000,
         data: {
