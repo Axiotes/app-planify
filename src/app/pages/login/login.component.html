@@ -1,15 +1,15 @@
 <main class="login">
   <img src="/assets/logo.png" />
 
-  <form class="login__form">
+  <form class="login__form" [formGroup]="loginForm">
     <div class="login__form__inputs">
       <div class="login__form__inputs-input">
         <label for="email">Email</label>
-        <input type="text" id="email" />
+        <input type="text" id="email" formControlName="email" />
       </div>
       <div class="login__form__inputs-input">
         <label for="password">Senha</label>
-        <input [type]="typeInput" id="password" />
+        <input [type]="typeInput" id="password" formControlName="password" />
         <i-lucide
           [img]="eyePassword"
           [size]="22"
@@ -20,7 +20,7 @@
     </div>
 
     <div class="login__form__confirm">
-      <button>Login</button>
+      <button (click)="login()">Login</button>
       <a routerLink="/register">Cadastra-se</a>
     </div>
   </form>
