@@ -12,6 +12,7 @@
         <input [type]="typeInput" id="password" />
         <i-lucide
           [img]="eyePassword"
+          [size]="22"
           class="login__form__inputs-input--icon"
           (click)="changeTypeInput()"
         ></i-lucide>
@@ -19,7 +20,7 @@
     </div>
 
     <div class="login__form__confirm">
-      <button class="login__form__confirm-btn">Login</button>
+      <button>Login</button>
       <a routerLink="/register">Cadastra-se</a>
     </div>
   </form>
