@@ -8,6 +8,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { Eye, EyeOff, LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
+import { ApiRequestsService } from '../../services/api-requests.service';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,8 @@ export class LoginComponent {
   public typeInput: string = 'password';
   public eyePassword: LucideIconData = EyeOff;
 
+  constructor(private apiRequestService: ApiRequestsService) {}
+
   public changeTypeInput(): void {
     if (this.typeInput === 'password') {
       this.typeInput = 'text';
@@ -38,6 +41,18 @@ export class LoginComponent {
   }
 
   public login(): void {
-    console.log(this.loginForm.valid);
+    if (!this.loginForm.valid) {
+      console.log('Email ou senha inválido');
+      return;
+    }
+
+    this.apiRequestService.login(this.loginForm.value).subscribe({
+      next: (res) => {
+        console.log('Response: ', res);
+      },
+      error: (err) => {
+        console.log('Erro:', err.error.message);
+      },
+    });
   }
 }
