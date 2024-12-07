@@ -5,10 +5,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Eye, EyeOff, LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 import { ApiRequestsService } from '../../services/api-requests.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,11 @@ export class LoginComponent {
   public typeInput: string = 'password';
   public eyePassword: LucideIconData = EyeOff;
 
-  constructor(private apiRequestService: ApiRequestsService) {}
+  constructor(
+    private apiRequestService: ApiRequestsService,
+    private localStorageService: LocalStorageService,
+    private router: Router
+  ) {}
 
   public changeTypeInput(): void {
     if (this.typeInput === 'password') {
@@ -48,7 +53,10 @@ export class LoginComponent {
 
     this.apiRequestService.login(this.loginForm.value).subscribe({
       next: (res) => {
-        console.log('Response: ', res);
+        if (res.token) {
+          this.localStorageService.addItem(res.token);
+          this.router.navigateByUrl('/agenda');
+        }
       },
       error: (err) => {
         console.log('Erro:', err.error.message);
