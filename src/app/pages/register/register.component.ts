@@ -75,7 +75,7 @@ export class RegisterComponent {
       return;
     }
 
-    this.apiRequestService.login(this.registerForm.value).subscribe({
+    this.apiRequestService.register(this.registerForm.value).subscribe({
       next: (res) => {
         if (res.token) {
           this.localStorageService.addItem(res.token);
