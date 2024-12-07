@@ -14,16 +14,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertComponent } from '../../components/alert/alert.component';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [LucideAngularModule, RouterLink, ReactiveFormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.scss',
 })
-export class LoginComponent {
-  public loginForm: FormGroup = new FormGroup({
+export class RegisterComponent {
+  public registerForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
+    confirmPassword: new FormControl('', [Validators.required]),
   });
 
   public typeInput: string = 'password';
@@ -48,19 +49,33 @@ export class LoginComponent {
     this.eyePassword = EyeOff;
   }
 
-  public login(): void {
-    if (!this.loginForm.valid) {
+  public register(): void {
+    if (!this.registerForm.controls['email'].valid) {
       this.snackBar.openFromComponent(AlertComponent, {
         duration: 5000,
         data: {
-          message: 'Email ou senha inválido',
+          message: 'Email inválido',
         },
       });
 
       return;
     }
 
-    this.apiRequestService.login(this.loginForm.value).subscribe({
+    if (
+      this.registerForm.controls['password'].value !==
+      this.registerForm.controls['confirmPassword'].value
+    ) {
+      this.snackBar.openFromComponent(AlertComponent, {
+        duration: 5000,
+        data: {
+          message: 'As senhas estão diferentes',
+        },
+      });
+
+      return;
+    }
+
+    this.apiRequestService.register(this.registerForm.value).subscribe({
       next: (res) => {
         if (res.token) {
           this.localStorageService.addItem(res.token);

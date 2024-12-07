@@ -1,0 +1,41 @@
+<main class="register">
+  <img src="/assets/logo.png" />
+
+  <form class="register__form" [formGroup]="registerForm">
+    <div class="register__form__inputs">
+      <div class="register__form__inputs-input">
+        <label for="email">Email</label>
+        <input type="text" id="email" formControlName="email" />
+      </div>
+      <div class="register__form__inputs-input">
+        <label for="password">Senha</label>
+        <input [type]="typeInput" id="password" formControlName="password" />
+        <i-lucide
+          [img]="eyePassword"
+          [size]="22"
+          class="register__form__inputs-input--icon"
+          (click)="changeTypeInput()"
+        ></i-lucide>
+      </div>
+      <div class="register__form__inputs-input">
+        <label for="confirmPassword">Confirmar Senha</label>
+        <input
+          [type]="typeInput"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+        />
+        <i-lucide
+          [img]="eyePassword"
+          [size]="22"
+          class="register__form__inputs-input--icon"
+          (click)="changeTypeInput()"
+        ></i-lucide>
+      </div>
+    </div>
+
+    <div class="register__form__confirm">
+      <button (click)="register()">Cadastra-se</button>
+      <a routerLink="/login">Fazer login</a>
+    </div>
+  </form>
+</main>
