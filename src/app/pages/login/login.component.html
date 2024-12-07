@@ -1,1 +1,26 @@
-<p>login works!</p>
+<main class="login">
+  <img src="/assets/logo.png" />
+
+  <form class="login__form">
+    <div class="login__form__inputs">
+      <div class="login__form__inputs-input">
+        <label for="email">Email</label>
+        <input type="text" id="email" />
+      </div>
+      <div class="login__form__inputs-input">
+        <label for="password">Senha</label>
+        <input [type]="typeInput" id="password" />
+        <i-lucide
+          [img]="eyePassword"
+          class="login__form__inputs-input--icon"
+          (click)="changeTypeInput()"
+        ></i-lucide>
+      </div>
+    </div>
+
+    <div class="login__form__confirm">
+      <button class="login__form__confirm-btn">Login</button>
+      <a routerLink="/register">Cadastra-se</a>
+    </div>
+  </form>
+</main>
