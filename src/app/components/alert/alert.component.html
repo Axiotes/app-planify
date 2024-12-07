@@ -1,0 +1,18 @@
+<div class="alert">
+  <span
+    *ngIf="message"
+    [innerText]="message"
+    class="alert__span--message"
+    matSnackBarLabel
+  >
+  </span>
+  <span *ngIf="message" matSnackBarActions>
+    <mat-icon
+      class="icon-close"
+      (click)="snackBarRef.dismissWithAction()"
+      aria-hidden="false"
+      aria-label="close"
+      fontIcon="close"
+    ></mat-icon>
+  </span>
+</div>
