@@ -10,6 +10,8 @@ import { Eye, EyeOff, LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 import { ApiRequestsService } from '../../services/api-requests.service';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AlertComponent } from '../../components/alert/alert.component';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +32,8 @@ export class LoginComponent {
   constructor(
     private apiRequestService: ApiRequestsService,
     private localStorageService: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   public changeTypeInput(): void {
@@ -48,6 +51,14 @@ export class LoginComponent {
   public login(): void {
     if (!this.loginForm.valid) {
       console.log('Email ou senha inválido');
+
+      this.snackBar.openFromComponent(AlertComponent, {
+        duration: 5000,
+        data: {
+          message: 'Email ou senha inválido',
+        },
+      });
+
       return;
     }
 
@@ -59,7 +70,12 @@ export class LoginComponent {
         }
       },
       error: (err) => {
-        console.log('Erro:', err.error.message);
+        this.snackBar.openFromComponent(AlertComponent, {
+          duration: 5000,
+          data: {
+            message: err.error.message,
+          },
+        });
       },
     });
   }

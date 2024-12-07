@@ -1,0 +1,26 @@
+@import "../../../style/_variables";
+
+.alert {
+  padding: 1%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+
+  &__span {
+    display: block;
+    width: 100%;
+
+    &--message {
+      text-align: center;
+      color: white;
+    }
+  }
+
+  .icon-close {
+    color: $orange;
+    cursor: pointer;
+  }
+}
