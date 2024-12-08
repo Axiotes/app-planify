@@ -26,4 +26,8 @@ export class ApiRequestsService {
       registerValue
     );
   }
+
+  public verifyUser(): Observable<LoginResponse> {
+    return this.http.get<LoginResponse>(`${this.baseUrl}/user/verify`);
+  }
 }

@@ -3,6 +3,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { AgendaComponent } from './pages/agenda/agenda.component';
 import { ActivityComponent } from './pages/activity/activity.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -10,6 +11,7 @@ export const routes: Routes = [
   {
     path: 'agenda',
     component: AgendaComponent,
+    canActivate: [authGuard()],
     children: [
       {
         path: 'new-activity',
