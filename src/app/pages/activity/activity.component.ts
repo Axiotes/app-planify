@@ -33,7 +33,7 @@ export class ActivityComponent {
 
   public formActivity: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required]),
-    date: new FormControl('', [Validators.required]),
+    date: new FormControl('', [Validators.required, Validators.minLength(10)]),
     time: new FormControl(''),
     description: new FormControl(''),
     priority: new FormControl(''),
