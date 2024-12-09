@@ -1,6 +1,12 @@
 @import "../../../style/_utilities";
 @import "../../../style/_variables";
 
+:host {
+  height: 100vh;
+  width: 100%;
+  max-width: 400px;
+}
+
 .activity {
   width: 100%;
   height: 100vh;
@@ -13,11 +19,13 @@
     width: 100%;
     @include flex-center();
     justify-content: space-between;
+    max-width: 320px;
 
     &-back {
       color: $orange;
       width: 24px;
       height: 24px;
+      cursor: pointer;
     }
 
     &-user {
@@ -32,6 +40,7 @@
       border: 2px solid $orange;
       @include flex-center();
       border-radius: 100%;
+      cursor: pointer;
     }
   }
 
@@ -48,6 +57,7 @@
     width: 100%;
     height: 100%;
     @include flex-center(column, 10px);
+    max-width: 400px;
 
     &__inputs {
       width: 100%;
@@ -86,6 +96,7 @@
     &-date {
       @include grid-container(2, 100px, 1fr);
       gap: 25px;
+      max-width: 320px;
 
       input {
         text-align: center;
@@ -100,6 +111,7 @@
       justify-content: space-between;
       padding: 0 5px;
       margin-top: 5px;
+      gap: 15px;
 
       select {
         background-color: white;
