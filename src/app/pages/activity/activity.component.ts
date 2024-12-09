@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -26,8 +26,9 @@ import { DatePipe } from '../../pipes/date.pipe';
   ],
   templateUrl: './activity.component.html',
   styleUrl: './activity.component.scss',
+  providers: [DatePipe],
 })
-export class ActivityComponent {
+export class ActivityComponent implements OnInit {
   public back: LucideIconData = ArrowLeft;
   public user: LucideIconData = User;
 
@@ -43,8 +44,13 @@ export class ActivityComponent {
   constructor(
     private apiRequestService: ApiRequestsService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private datePipe: DatePipe
   ) {}
+
+  ngOnInit(): void {
+    this.setDate();
+  }
 
   public get date(): string {
     return this.formActivity.controls['date'].value;
@@ -90,7 +96,7 @@ export class ActivityComponent {
     });
   }
 
-  public formatHour(event: Event) {
+  public formatHour(event: Event): void {
     const input = event.target as HTMLInputElement;
     let time = input.value.replace(/\D/g, '');
 
@@ -102,5 +108,18 @@ export class ActivityComponent {
     let date = input.value.replace(/\D/g, '');
 
     this.formActivity.controls['date'].setValue(date);
+  }
+
+  private setDate(): void {
+    if (this.date === '') {
+      const year = new Date().getFullYear();
+      const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
+      const day = new Date().getDate().toString().padStart(2, '0');
+
+      const date = `${day}${month}${year}`;
+      const formatDate = this.datePipe.transform(date);
+
+      this.formActivity.controls['date'].setValue(formatDate);
+    }
   }
 }
