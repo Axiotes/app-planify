@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class DatePipe implements PipeTransform {
-  transform(date: string): unknown {
+  transform(date: string): string {
     if (!date) {
       return '';
     }
