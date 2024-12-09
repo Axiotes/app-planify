@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ArrowLeft, LucideAngularModule, User } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 import { ApiRequestsService } from '../../services/api-requests.service';
@@ -45,11 +45,27 @@ export class ActivityComponent implements OnInit {
     private apiRequestService: ApiRequestsService,
     private snackBar: MatSnackBar,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
-    this.setDate();
+    const type: { [key: string]: () => void } = {
+      new: () => {
+        this.setDate();
+        console.log('New');
+      },
+      edit: () => {
+        this.getActivity();
+        console.log('Edit');
+      },
+    };
+
+    this.activatedRoute.data.subscribe((data) => {
+      const routeType = data['type'];
+      const func = type[routeType];
+      func();
+    });
   }
 
   public get date(): string {
@@ -121,5 +137,32 @@ export class ActivityComponent implements OnInit {
 
       this.formActivity.controls['date'].setValue(formatDate);
     }
+  }
+
+  private getActivity(): void {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    if (!id) {
+      this.router.navigateByUrl('/agenda');
+      return;
+    }
+
+    this.apiRequestService.activity(id).subscribe({
+      next: (res) => {
+        const activity = {
+          title: res.activity.title,
+          date: res.activity.date,
+          time: res.activity.time,
+          description: res.activity.description,
+          priority: res.activity.priority,
+          alert: res.activity.alert,
+        };
+
+        this.formActivity.setValue(activity);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }
