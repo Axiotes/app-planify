@@ -46,4 +46,14 @@ export class ApiRequestsService {
       `${this.baseUrl}/activities/${id}`
     );
   }
+
+  public updateActivity(
+    activity: Activity,
+    id: string
+  ): Observable<ApiResponse> {
+    return this.http.patch<ApiResponse>(
+      `${this.baseUrl}/activities/update/${id}`,
+      activity
+    );
+  }
 }

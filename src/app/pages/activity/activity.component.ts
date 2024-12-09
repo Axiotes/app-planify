@@ -40,6 +40,8 @@ export class ActivityComponent implements OnInit {
     priority: new FormControl(''),
     alert: new FormControl(false),
   });
+  public routeType!: 'edit' | 'new';
+  private activityId!: string | null;
 
   constructor(
     private apiRequestService: ApiRequestsService,
@@ -53,17 +55,15 @@ export class ActivityComponent implements OnInit {
     const type: { [key: string]: () => void } = {
       new: () => {
         this.setDate();
-        console.log('New');
       },
       edit: () => {
         this.getActivity();
-        console.log('Edit');
       },
     };
 
     this.activatedRoute.data.subscribe((data) => {
-      const routeType = data['type'];
-      const func = type[routeType];
+      this.routeType = data['type'];
+      const func = type[this.routeType];
       func();
     });
   }
@@ -77,39 +77,12 @@ export class ActivityComponent implements OnInit {
   }
 
   public save(): void {
-    if (!this.formActivity.valid) {
-      this.snackBar.openFromComponent(AlertComponent, {
-        duration: 5000,
-        data: {
-          message: 'Os campos de título e data são obrigatórios',
-        },
-      });
+    if (this.routeType === 'new') {
+      this.saveNewActivity();
       return;
     }
 
-    if (this.formActivity.controls['priority'].value === '') {
-      this.formActivity.controls['priority'].setValue(2);
-    }
-
-    this.apiRequestService.newActivity(this.formActivity.value).subscribe({
-      next: (res) => {
-        this.snackBar.openFromComponent(AlertComponent, {
-          duration: 5000,
-          data: {
-            message: res.message,
-          },
-        });
-        this.router.navigateByUrl('/agenda');
-      },
-      error: (err) => {
-        this.snackBar.openFromComponent(AlertComponent, {
-          duration: 5000,
-          data: {
-            message: err.error.message,
-          },
-        });
-      },
-    });
+    this.updateActivity();
   }
 
   public formatHour(event: Event): void {
@@ -140,14 +113,14 @@ export class ActivityComponent implements OnInit {
   }
 
   private getActivity(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.activityId = this.activatedRoute.snapshot.paramMap.get('id');
 
-    if (!id) {
+    if (!this.activityId) {
       this.router.navigateByUrl('/agenda');
       return;
     }
 
-    this.apiRequestService.activity(id).subscribe({
+    this.apiRequestService.activity(this.activityId).subscribe({
       next: (res) => {
         const activity = {
           title: res.activity.title,
@@ -161,8 +134,59 @@ export class ActivityComponent implements OnInit {
         this.formActivity.setValue(activity);
       },
       error: (err) => {
-        console.log(err);
+        this.snackBarMessage(err.error.message);
       },
     });
+  }
+
+  private saveNewActivity(): void {
+    if (!this.formActivity.valid) {
+      this.snackBarMessage('Os campos de título e data são obrigatórios');
+      return;
+    }
+
+    if (this.formActivity.controls['priority'].value === '') {
+      this.formActivity.controls['priority'].setValue(2);
+    }
+
+    this.apiRequestService.newActivity(this.formActivity.value).subscribe({
+      next: (res) => {
+        this.snackBarMessage(res.message, '/agenda');
+      },
+      error: (err) => {
+        this.snackBarMessage(err.error.message);
+      },
+    });
+  }
+
+  private updateActivity(): void {
+    if (!this.formActivity.valid || !this.activityId) {
+      this.snackBarMessage('Os campos de título e data são obrigatórios');
+      return;
+    }
+
+    this.apiRequestService
+      .updateActivity(this.formActivity.value, this.activityId)
+      .subscribe({
+        next: (res) => {
+          this.snackBarMessage(res.message, '/agenda');
+        },
+        error: (err) => {
+          this.snackBarMessage(err.error.message);
+        },
+      });
+  }
+
+  private snackBarMessage(message: string, navigate?: string): void {
+    this.snackBar.openFromComponent(AlertComponent, {
+      duration: 5000,
+      data: {
+        message: message,
+      },
+    });
+
+    if (navigate) {
+      this.router.navigateByUrl(navigate);
+    }
   }
 }
