@@ -33,7 +33,7 @@ export class ActivityComponent {
 
   public formActivity: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required]),
-    date: new FormControl('', [Validators.required, Validators.minLength(10)]),
+    date: new FormControl('', [Validators.required, Validators.minLength(8)]),
     time: new FormControl(''),
     description: new FormControl(''),
     priority: new FormControl(''),
@@ -63,6 +63,10 @@ export class ActivityComponent {
         },
       });
       return;
+    }
+
+    if (this.formActivity.controls['priority'].value === '') {
+      this.formActivity.controls['priority'].setValue(2);
     }
 
     this.apiRequestService.newActivity(this.formActivity.value).subscribe({
