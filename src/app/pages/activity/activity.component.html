@@ -1,0 +1,80 @@
+<main class="activity">
+  <div class="activity__icons">
+    <i-lucide
+      [img]="back"
+      class="activity__icons-back"
+      routerLink="/agenda"
+    ></i-lucide>
+
+    <div>
+      <i-lucide
+        [img]="user"
+        [size]="20"
+        class="activity__icons-user"
+        routerLink="/user"
+      ></i-lucide>
+    </div>
+  </div>
+  <h1>Adicionar atividade:</h1>
+  <form class="activity__form" [formGroup]="formActivity">
+    <div class="activity__form__inputs">
+      <label for="title">Título:</label>
+      <input
+        type="text"
+        id="title"
+        placeholder="Título da atividade"
+        formControlName="title"
+      />
+    </div>
+    <div class="activity__form-date">
+      <div class="activity__form__inputs">
+        <label for="date">Data:</label>
+        <input
+          type="text"
+          id="date"
+          placeholder="dia/mês/ano"
+          formControlName="date"
+          maxlength="10"
+          value="{{ date | date }}"
+          (input)="formatDate($event)"
+        />
+      </div>
+      <div class="activity__form__inputs">
+        <label for="hour">Horário:</label>
+        <input
+          type="text"
+          id="hour"
+          placeholder="00:00"
+          formControlName="time"
+          maxlength="5"
+          value="{{ time | time }}"
+          (input)="formatHour($event)"
+        />
+      </div>
+    </div>
+    <div class="activity__form__inputs">
+      <label for="description">Descrição:</label>
+      <textarea
+        id="description"
+        placeholder="Descreva sua atividade..."
+        formControlName="description"
+      ></textarea>
+    </div>
+    <div class="activity__form__priority">
+      <select formControlName="priority">
+        <option value="" disabled selected>Prioridade</option>
+        <option [value]="3">Alto</option>
+        <option [value]="2">Médio</option>
+        <option [value]="1">Baixo</option>
+      </select>
+      <label class="custom-checkbox">
+        <input type="checkbox" id="checkbox1" formControlName="alert" />
+        <span class="checkmark"></span>
+        <span class="checkbox-label">Receber notificação</span>
+      </label>
+    </div>
+    <div class="activity__form__button">
+      <button (click)="save()">Salvar tarefa</button>
+    </div>
+  </form>
+</main>
