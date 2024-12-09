@@ -12,18 +12,18 @@ export const routes: Routes = [
     path: 'agenda',
     component: AgendaComponent,
     canActivate: [authGuard()],
-    children: [
-      {
-        path: 'new-activity',
-        component: ActivityComponent,
-        data: { type: 'new' },
-      },
-      {
-        path: 'edit-activity/:id',
-        component: ActivityComponent,
-        data: { type: 'edit' },
-      },
-    ],
+  },
+  {
+    path: 'new-activity',
+    component: ActivityComponent,
+    canActivate: [authGuard()],
+    data: { type: 'new' },
+  },
+  {
+    path: 'edit-activity/:id',
+    component: ActivityComponent,
+    canActivate: [authGuard()],
+    data: { type: 'edit' },
   },
   { path: '', pathMatch: 'full', redirectTo: '/login' },
   { path: '**', redirectTo: '/login' },
