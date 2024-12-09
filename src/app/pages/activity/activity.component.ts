@@ -11,11 +11,19 @@ import { LucideIconData } from 'lucide-angular/icons/types';
 import { ApiRequestsService } from '../../services/api-requests.service';
 import { AlertComponent } from '../../components/alert/alert.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TimePipe } from '../../pipes/time.pipe';
+import { DatePipe } from '../../pipes/date.pipe';
 
 @Component({
   selector: 'app-activity',
   standalone: true,
-  imports: [LucideAngularModule, RouterLink, ReactiveFormsModule],
+  imports: [
+    LucideAngularModule,
+    RouterLink,
+    ReactiveFormsModule,
+    TimePipe,
+    DatePipe,
+  ],
   templateUrl: './activity.component.html',
   styleUrl: './activity.component.scss',
 })
@@ -38,8 +46,15 @@ export class ActivityComponent {
     private router: Router
   ) {}
 
+  public get date(): string {
+    return this.formActivity.controls['date'].value;
+  }
+
+  public get time(): string {
+    return this.formActivity.controls['time'].value;
+  }
+
   public save(): void {
-    console.log(this.formActivity.value);
     if (!this.formActivity.valid) {
       this.snackBar.openFromComponent(AlertComponent, {
         duration: 5000,
@@ -69,5 +84,19 @@ export class ActivityComponent {
         });
       },
     });
+  }
+
+  public formatHour(event: Event) {
+    const input = event.target as HTMLInputElement;
+    let time = input.value.replace(/\D/g, '');
+
+    this.formActivity.controls['time'].setValue(time);
+  }
+
+  public formatDate(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let date = input.value.replace(/\D/g, '');
+
+    this.formActivity.controls['date'].setValue(date);
   }
 }

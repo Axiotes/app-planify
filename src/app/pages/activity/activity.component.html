@@ -19,16 +19,37 @@
   <form class="activity__form" [formGroup]="formActivity">
     <div class="activity__form__inputs">
       <label for="title">Título:</label>
-      <input type="text" id="title" placeholder="Título da atividade" formControlName="title" />
+      <input
+        type="text"
+        id="title"
+        placeholder="Título da atividade"
+        formControlName="title"
+      />
     </div>
     <div class="activity__form-date">
       <div class="activity__form__inputs">
         <label for="date">Data:</label>
-        <input type="text" id="date" placeholder="dia/mês/ano" formControlName="date" />
+        <input
+          type="text"
+          id="date"
+          placeholder="dia/mês/ano"
+          formControlName="date"
+          maxlength="10"
+          value="{{ date | date }}"
+          (input)="formatDate($event)"
+        />
       </div>
       <div class="activity__form__inputs">
         <label for="hour">Horário:</label>
-        <input type="text" id="hour" placeholder="00:00" formControlName="time" />
+        <input
+          type="text"
+          id="hour"
+          placeholder="00:00"
+          formControlName="time"
+          maxlength="5"
+          value="{{ time | time }}"
+          (input)="formatHour($event)"
+        />
       </div>
     </div>
     <div class="activity__form__inputs">
