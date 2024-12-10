@@ -15,7 +15,7 @@
       ></i-lucide>
     </div>
   </div>
-  <h1>Adicionar atividade:</h1>
+  <h1 [innerHTML]="titlePage"></h1>
   <form class="activity__form" [formGroup]="formActivity">
     <div class="activity__form__inputs">
       <label for="title">Título:</label>
@@ -74,7 +74,7 @@
       </label>
     </div>
     <div class="activity__form__button">
-      <button (click)="save()">Salvar tarefa</button>
+      <button (click)="save()" [innerHTML]="buttonLabel"></button>
     </div>
   </form>
 </main>

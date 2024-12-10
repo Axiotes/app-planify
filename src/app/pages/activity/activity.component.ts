@@ -13,6 +13,8 @@ import { AlertComponent } from '../../components/alert/alert.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TimePipe } from '../../pipes/time.pipe';
 import { DatePipe } from '../../pipes/date.pipe';
+import { NgIf } from '@angular/common';
+import { Activity } from '../../../types/activity.type';
 
 @Component({
   selector: 'app-activity',
@@ -23,6 +25,7 @@ import { DatePipe } from '../../pipes/date.pipe';
     ReactiveFormsModule,
     TimePipe,
     DatePipe,
+    NgIf,
   ],
   templateUrl: './activity.component.html',
   styleUrl: './activity.component.scss',
@@ -41,6 +44,10 @@ export class ActivityComponent implements OnInit {
     alert: new FormControl(false),
   });
   public routeType!: 'edit' | 'new';
+
+  public buttonLabel: string = 'Salvar atividade';
+  public titlePage: string = 'Adicionar atividade:';
+
   private activityId!: string | null;
 
   constructor(
@@ -58,6 +65,8 @@ export class ActivityComponent implements OnInit {
       },
       edit: () => {
         this.getActivity();
+        this.buttonLabel = 'Salvar alteração';
+        this.titlePage = 'Atividade:';
       },
     };
 
