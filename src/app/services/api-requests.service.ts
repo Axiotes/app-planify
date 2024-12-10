@@ -38,4 +38,22 @@ export class ApiRequestsService {
       newActivity
     );
   }
+
+  public activity(
+    id: string
+  ): Observable<{ message: string; activity: Activity }> {
+    return this.http.get<{ message: string; activity: Activity }>(
+      `${this.baseUrl}/activities/${id}`
+    );
+  }
+
+  public updateActivity(
+    activity: Activity,
+    id: string
+  ): Observable<ApiResponse> {
+    return this.http.patch<ApiResponse>(
+      `${this.baseUrl}/activities/update/${id}`,
+      activity
+    );
+  }
 }

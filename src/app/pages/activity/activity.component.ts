@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ArrowLeft, LucideAngularModule, User } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 import { ApiRequestsService } from '../../services/api-requests.service';
@@ -13,17 +13,13 @@ import { AlertComponent } from '../../components/alert/alert.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TimePipe } from '../../pipes/time.pipe';
 import { DatePipe } from '../../pipes/date.pipe';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalComponent } from '../../components/modal/modal.component';
 
 @Component({
   selector: 'app-activity',
   standalone: true,
-  imports: [
-    LucideAngularModule,
-    RouterLink,
-    ReactiveFormsModule,
-    TimePipe,
-    DatePipe,
-  ],
+  imports: [LucideAngularModule, ReactiveFormsModule, TimePipe, DatePipe],
   templateUrl: './activity.component.html',
   styleUrl: './activity.component.scss',
   providers: [DatePipe],
@@ -40,16 +36,39 @@ export class ActivityComponent implements OnInit {
     priority: new FormControl(''),
     alert: new FormControl(false),
   });
+  public routeType!: 'edit' | 'new';
+
+  public buttonLabel: string = 'Salvar atividade';
+  public titlePage: string = 'Adicionar atividade:';
+
+  private activityId!: string | null;
 
   constructor(
     private apiRequestService: ApiRequestsService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private datePipe: DatePipe
+    private activatedRoute: ActivatedRoute,
+    private datePipe: DatePipe,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.setDate();
+    const type: { [key: string]: () => void } = {
+      new: () => {
+        this.setDate();
+      },
+      edit: () => {
+        this.getActivity();
+        this.buttonLabel = 'Salvar alteração';
+        this.titlePage = 'Atividade:';
+      },
+    };
+
+    this.activatedRoute.data.subscribe((data) => {
+      this.routeType = data['type'];
+      const func = type[this.routeType];
+      func();
+    });
   }
 
   public get date(): string {
@@ -61,39 +80,12 @@ export class ActivityComponent implements OnInit {
   }
 
   public save(): void {
-    if (!this.formActivity.valid) {
-      this.snackBar.openFromComponent(AlertComponent, {
-        duration: 5000,
-        data: {
-          message: 'Os campos de título e data são obrigatórios',
-        },
-      });
+    if (this.routeType === 'new') {
+      this.saveNewActivity();
       return;
     }
 
-    if (this.formActivity.controls['priority'].value === '') {
-      this.formActivity.controls['priority'].setValue(2);
-    }
-
-    this.apiRequestService.newActivity(this.formActivity.value).subscribe({
-      next: (res) => {
-        this.snackBar.openFromComponent(AlertComponent, {
-          duration: 5000,
-          data: {
-            message: res.message,
-          },
-        });
-        this.router.navigateByUrl('/agenda');
-      },
-      error: (err) => {
-        this.snackBar.openFromComponent(AlertComponent, {
-          duration: 5000,
-          data: {
-            message: err.error.message,
-          },
-        });
-      },
-    });
+    this.updateActivity();
   }
 
   public formatHour(event: Event): void {
@@ -110,6 +102,22 @@ export class ActivityComponent implements OnInit {
     this.formActivity.controls['date'].setValue(date);
   }
 
+  public navigate(route: string) {
+    this.dialog
+      .open(ModalComponent, {
+        width: '400px',
+        data: {
+          description: 'Alterações não salvas serão perdidas',
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === 'delete') {
+          this.router.navigateByUrl(route);
+        }
+      });
+  }
+
   private setDate(): void {
     if (this.date === '') {
       const year = new Date().getFullYear();
@@ -120,6 +128,84 @@ export class ActivityComponent implements OnInit {
       const formatDate = this.datePipe.transform(date);
 
       this.formActivity.controls['date'].setValue(formatDate);
+    }
+  }
+
+  private getActivity(): void {
+    this.activityId = this.activatedRoute.snapshot.paramMap.get('id');
+
+    if (!this.activityId) {
+      this.router.navigateByUrl('/agenda');
+      return;
+    }
+
+    this.apiRequestService.activity(this.activityId).subscribe({
+      next: (res) => {
+        const activity = {
+          title: res.activity.title,
+          date: res.activity.date,
+          time: res.activity.time,
+          description: res.activity.description,
+          priority: res.activity.priority,
+          alert: res.activity.alert,
+        };
+
+        this.formActivity.setValue(activity);
+      },
+      error: (err) => {
+        this.snackBarMessage(err.error.message);
+      },
+    });
+  }
+
+  private saveNewActivity(): void {
+    if (!this.formActivity.valid) {
+      this.snackBarMessage('Os campos de título e data são obrigatórios');
+      return;
+    }
+
+    if (this.formActivity.controls['priority'].value === '') {
+      this.formActivity.controls['priority'].setValue(2);
+    }
+
+    this.apiRequestService.newActivity(this.formActivity.value).subscribe({
+      next: (res) => {
+        this.snackBarMessage(res.message, '/agenda');
+      },
+      error: (err) => {
+        this.snackBarMessage(err.error.message);
+      },
+    });
+  }
+
+  private updateActivity(): void {
+    if (!this.formActivity.valid || !this.activityId) {
+      this.snackBarMessage('Os campos de título e data são obrigatórios');
+      return;
+    }
+
+    this.apiRequestService
+      .updateActivity(this.formActivity.value, this.activityId)
+      .subscribe({
+        next: (res) => {
+          this.snackBarMessage(res.message, '/agenda');
+        },
+        error: (err) => {
+          this.snackBarMessage(err.error.message);
+        },
+      });
+  }
+
+  private snackBarMessage(message: string, navigate?: string): void {
+    this.snackBar.openFromComponent(AlertComponent, {
+      duration: 5000,
+      data: {
+        message: message,
+      },
+    });
+
+    if (navigate) {
+      this.router.navigateByUrl(navigate);
     }
   }
 }
