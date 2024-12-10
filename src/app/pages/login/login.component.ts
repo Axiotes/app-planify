@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -20,7 +20,7 @@ import { AlertComponent } from '../../components/alert/alert.component';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   public loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
@@ -35,6 +35,14 @@ export class LoginComponent {
     private router: Router,
     private snackBar: MatSnackBar
   ) {}
+
+  ngOnInit(): void {
+    this.apiRequestService.verifyUser().subscribe({
+      next: () => {
+        this.router.navigateByUrl('/agenda');
+      },
+    });
+  }
 
   public changeTypeInput(): void {
     if (this.typeInput === 'password') {
