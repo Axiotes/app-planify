@@ -1,0 +1,36 @@
+@import "../../../style/_utilities";
+@import "../../../style/_variables";
+
+.modal {
+  @include flex-center(column, 10px);
+  width: 250px;
+  height: 200px;
+  background-color: $black;
+  border-radius: 20px;
+
+  h1 {
+    color: white;
+    font-family: "Parkinsans", sans-serif;
+    font-size: 22px;
+    margin: 0;
+  }
+
+  p {
+    color: white;
+    font-size: 16px;
+    width: 180px;
+    text-align: center;
+  }
+
+  &__buttons {
+    width: 100%;
+    @include flex-center(row, 20px);
+
+    @include button(25px, 80px);
+
+    &-confirm {
+      background-color: red !important;
+      outline: none;
+    }
+  }
+}

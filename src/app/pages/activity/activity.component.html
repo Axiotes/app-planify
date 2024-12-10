@@ -3,7 +3,7 @@
     <i-lucide
       [img]="back"
       class="activity__icons-back"
-      routerLink="/agenda"
+      (click)="navigate('/agenda')"
     ></i-lucide>
 
     <div>
@@ -11,7 +11,7 @@
         [img]="user"
         [size]="20"
         class="activity__icons-user"
-        routerLink="/user"
+        (click)="navigate('/user')"
       ></i-lucide>
     </div>
   </div>

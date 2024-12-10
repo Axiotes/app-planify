@@ -1,0 +1,10 @@
+<div class="modal">
+  <h1>Deseja confirmar?</h1>
+  <p [innerHTML]="data.description"></p>
+  <div class="modal__buttons">
+    <button class="modal__buttons-confirm" (click)="confirm()">
+      Confirmar
+    </button>
+    <button class="modal__buttons-cancel" (click)="cancel()">Cancelar</button>
+  </div>
+</div>

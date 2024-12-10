@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ArrowLeft, LucideAngularModule, User } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 import { ApiRequestsService } from '../../services/api-requests.service';
@@ -13,20 +13,13 @@ import { AlertComponent } from '../../components/alert/alert.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TimePipe } from '../../pipes/time.pipe';
 import { DatePipe } from '../../pipes/date.pipe';
-import { NgIf } from '@angular/common';
-import { Activity } from '../../../types/activity.type';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalComponent } from '../../components/modal/modal.component';
 
 @Component({
   selector: 'app-activity',
   standalone: true,
-  imports: [
-    LucideAngularModule,
-    RouterLink,
-    ReactiveFormsModule,
-    TimePipe,
-    DatePipe,
-    NgIf,
-  ],
+  imports: [LucideAngularModule, ReactiveFormsModule, TimePipe, DatePipe],
   templateUrl: './activity.component.html',
   styleUrl: './activity.component.scss',
   providers: [DatePipe],
@@ -55,7 +48,8 @@ export class ActivityComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -106,6 +100,22 @@ export class ActivityComponent implements OnInit {
     let date = input.value.replace(/\D/g, '');
 
     this.formActivity.controls['date'].setValue(date);
+  }
+
+  public navigate(route: string) {
+    this.dialog
+      .open(ModalComponent, {
+        width: '400px',
+        data: {
+          description: 'Alterações não salvas serão perdidas',
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === 'delete') {
+          this.router.navigateByUrl(route);
+        }
+      });
   }
 
   private setDate(): void {
