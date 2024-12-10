@@ -4,6 +4,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { AgendaComponent } from './pages/agenda/agenda.component';
 import { ActivityComponent } from './pages/activity/activity.component';
 import { authGuard } from './guards/auth.guard';
+import { UserComponent } from './pages/user/user.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -24,6 +25,11 @@ export const routes: Routes = [
     component: ActivityComponent,
     canActivate: [authGuard()],
     data: { type: 'edit' },
+  },
+  {
+    path: 'user',
+    component: UserComponent,
+    canActivate: [authGuard()],
   },
   { path: '', pathMatch: 'full', redirectTo: '/login' },
   { path: '**', redirectTo: '/login' },
