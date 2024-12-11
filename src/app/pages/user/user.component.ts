@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ArrowLeft, LucideAngularModule, User } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 import { ApiRequestsService } from '../../services/api-requests.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AlertComponent } from '../../components/alert/alert.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [LucideAngularModule],
+  imports: [LucideAngularModule, RouterLink],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
 })
@@ -22,7 +23,8 @@ export class UserComponent implements OnInit {
   constructor(
     private apiRequestsService: ApiRequestsService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
@@ -41,5 +43,10 @@ export class UserComponent implements OnInit {
         this.router.navigateByUrl('/agenda');
       },
     });
+  }
+
+  public logout(): void {
+    this.localStorageService.logout();
+    this.router.navigateByUrl('/login');
   }
 }
