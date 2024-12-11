@@ -1,0 +1,54 @@
+@import "../../../style/_utilities";
+@import "../../../style/_variables";
+
+.calendar {
+  width: 300px;
+  height: 250px;
+  @include flex-center(column, 15px);
+
+  &__header {
+    width: 100%;
+    @include flex-center();
+    justify-content: space-between;
+    padding: 0 5px;
+
+    @include button(25px, 120px);
+
+    &__date {
+      @include flex-center(row, 5px);
+
+      &-year {
+        font-size: 18px;
+        font-weight: 700;
+        color: $black;
+        margin: 0;
+      }
+
+      &-month {
+        font-size: 16px;
+        font-weight: 300;
+        color: $orange;
+        margin: 0;
+      }
+    }
+  }
+
+  &__days {
+    width: 100%;
+    @include grid-container(7, 5px, 1fr);
+
+    &-week {
+      font-size: 18px;
+      font-weight: 600;
+      color: $black;
+    }
+  }
+}
+
+.current-date {
+  color: $orange !important;
+}
+
+.other-month {
+  color: #aaa;
+}
