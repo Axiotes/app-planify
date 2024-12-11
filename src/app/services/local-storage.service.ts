@@ -22,4 +22,8 @@ export class LocalStorageService {
   public addItem(token: string): void {
     localStorage.setItem('token', token);
   }
+
+  public logout(): void {
+    localStorage.clear();
+  }
 }

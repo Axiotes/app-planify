@@ -28,6 +28,12 @@ export class ApiRequestsService {
     );
   }
 
+  public userInfo(): Observable<{ email: string }> {
+    return this.http.get<{ email: string }>(
+      `${this.baseUrl}/user/infos`
+    );
+  }
+
   public verifyUser(): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.baseUrl}/user/verify`);
   }

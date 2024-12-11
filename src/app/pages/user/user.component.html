@@ -1,0 +1,15 @@
+<main class="user">
+  <div class="user__icons">
+    <i-lucide
+      [img]="back"
+      class="user__icons-back"
+      routerLink="/agenda"
+    ></i-lucide>
+
+    <div>
+      <i-lucide [img]="user" [size]="55" class="user__icons-user"></i-lucide>
+    </div>
+  </div>
+  <input type="text" class="user__input" [value]="email" disabled />
+  <button (click)="logout()">Log Out</button>
+</main>
