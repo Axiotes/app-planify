@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CurrentDate } from '../../../types/date.type';
 
 @Component({
   selector: 'app-calendar',
@@ -10,7 +11,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './calendar.component.scss',
 })
 export class CalendarComponent implements OnInit {
-  @Output() public emitDate: EventEmitter<number> = new EventEmitter<number>();
+  @Output() public selectedDate: EventEmitter<CurrentDate> =
+    new EventEmitter<CurrentDate>();
   public currentDate: Date = new Date();
   public daysInMonth: number[] = [];
   public daysFromPreviousMonth: number[] = [];
@@ -85,19 +87,31 @@ export class CalendarComponent implements OnInit {
     if (i < this.daysFromPreviousMonth.length) {
       this.changeMonth(-1);
       this.selectedDay = day;
-      console.log(this.currentMonth, this.selectedDay);
+      this.selectedDate.emit({
+        day: this.selectedDay,
+        month: this.currentMonth,
+        year: this.currentYear,
+      });
       return;
     }
 
     if (i >= this.daysFromPreviousMonth.length + this.daysInMonth.length) {
       this.changeMonth(+1);
       this.selectedDay = day;
-      console.log(this.currentMonth, this.selectedDay);
+      this.selectedDate.emit({
+        day: this.selectedDay,
+        month: this.currentMonth,
+        year: this.currentYear,
+      });
       return;
     }
 
     this.selectedDay = day;
-    console.log(this.currentMonth, this.selectedDay);
+    this.selectedDate.emit({
+      day: this.selectedDay,
+      month: this.currentMonth,
+      year: this.currentYear,
+    });
   }
 
   private changeMonth(offset: number): void {
