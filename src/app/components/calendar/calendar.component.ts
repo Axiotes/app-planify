@@ -40,6 +40,9 @@ export class CalendarComponent implements OnInit {
     'Novembro',
     'Dezembro',
   ];
+  private touchMoved: boolean = false;
+  private startX: number = 0;
+  private startY: number = 0;
 
   ngOnInit() {
     this.generateCalendar(this.currentDate);
@@ -115,6 +118,33 @@ export class CalendarComponent implements OnInit {
       month: this.currentMonth,
       year: this.currentYear,
     });
+  }
+
+  public touchStart(event: TouchEvent): void {
+    this.touchMoved = false;
+    this.startX = event.touches[0].clientX;
+    this.startY = event.touches[0].clientY;
+  }
+
+  public touchMove(event: TouchEvent): void {
+    if (!this.touchMoved) {
+      this.touchMoved = true;
+
+      const currentX = event.touches[0].clientX;
+      const currentY = event.touches[0].clientY;
+      const deltaX = currentX - this.startX;
+      const deltaY = currentY - this.startY;
+
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX > 0) {
+          // Direita
+          this.changeMonth(-1);
+        } else {
+          // Esquerda
+          this.changeMonth(+1);
+        }
+      }
+    }
   }
 
   private changeMonth(offset: number): void {

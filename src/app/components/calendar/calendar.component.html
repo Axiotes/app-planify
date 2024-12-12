@@ -7,7 +7,11 @@
     <button>Nova atividade</button>
   </div>
 
-  <div class="calendar__days">
+  <div
+    class="calendar__days"
+    (touchstart)="touchStart($event)"
+    (touchmove)="touchMove($event)"
+  >
     <p
       *ngFor="let day of weekDays; let i = index"
       [ngClass]="{ 'current-date': currentWeekDay === i }"
