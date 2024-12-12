@@ -24,30 +24,35 @@ export class CalendarComponent implements OnInit {
   public currentWeekDay: number = 0;
   public currentDay: number = 0;
   public selectedDay: number = 0;
+  public month: string = '';
+  public year: number = 0;
+  public monthName: string[] = [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro',
+  ];
 
   ngOnInit() {
     this.generateCalendar(this.currentDate);
+    this.currentDay = this.currentDate.getDate();
+    this.currentMonth = this.monthName[this.currentDate.getMonth()];
+    this.currentYear = this.currentDate.getFullYear();
+    this.selectedDay = this.currentDate.getDate();
   }
 
   public generateCalendar(date: Date): void {
     const year = date.getFullYear();
     const month = date.getMonth();
     const weekday = date.getDay();
-    const day = date.getDate();
-    const monthName = [
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-      'Setembro',
-      'Outubro',
-      'Novembro',
-      'Dezembro',
-    ];
 
     const daysInCurrentMonth = new Date(year, month + 1, 0).getDate();
     this.daysInMonth = Array.from(
@@ -76,11 +81,9 @@ export class CalendarComponent implements OnInit {
       ...this.daysFromNextMonth,
     ];
 
-    this.currentMonth = monthName[month];
-    this.currentYear = year;
+    this.month = this.monthName[month];
+    this.year = year;
     this.currentWeekDay = weekday;
-    this.currentDay = day;
-    this.selectedDay = day;
   }
 
   public setSelectedDate(day: number, i: number) {

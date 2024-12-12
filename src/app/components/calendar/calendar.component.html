@@ -1,8 +1,8 @@
 <div class="calendar">
   <div class="calendar__header">
     <div class="calendar__header__date">
-      <p class="calendar__header__date-year">{{ currentYear }}</p>
-      <p class="calendar__header__date-month">{{ currentMonth }}</p>
+      <p class="calendar__header__date-year">{{ year }}</p>
+      <p class="calendar__header__date-month">{{ month }}</p>
     </div>
     <button>Nova atividade</button>
   </div>
@@ -21,7 +21,8 @@
       (click)="setSelectedDate(day, i)"
       class="calendar__days-day"
       [ngClass]="{
-        'current-date': currentDay === i + 1,
+        'current-date':
+          currentDay === day && currentMonth === month && currentYear === year,
         'selected-day':
           day === selectedDay &&
           !(
