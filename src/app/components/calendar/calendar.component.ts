@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CurrentDate } from '../../../types/date.type';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
 })
@@ -24,6 +25,7 @@ export class CalendarComponent implements OnInit {
   public currentWeekDay: number = 0;
   public currentDay: number = 0;
   public selectedDay: number = 0;
+  public monthNumber: number = 0;
   public month: string = '';
   public year: number = 0;
   public monthName: string[] = [
@@ -54,17 +56,17 @@ export class CalendarComponent implements OnInit {
 
   public generateCalendar(date: Date): void {
     const year = date.getFullYear();
-    const month = date.getMonth();
+    this.monthNumber = date.getMonth();
     const weekday = date.getDay();
 
-    const daysInCurrentMonth = new Date(year, month + 1, 0).getDate();
+    const daysInCurrentMonth = new Date(year, this.monthNumber + 1, 0).getDate();
     this.daysInMonth = Array.from(
       { length: daysInCurrentMonth },
       (_, i) => i + 1
     );
 
-    const firstDayOfMonth = new Date(year, month, 1).getDay();
-    const daysInPreviousMonth = new Date(year, month, 0).getDate();
+    const firstDayOfMonth = new Date(year, this.monthNumber, 1).getDay();
+    const daysInPreviousMonth = new Date(year, this.monthNumber, 0).getDate();
     this.daysFromPreviousMonth = Array.from(
       { length: firstDayOfMonth },
       (_, i) => daysInPreviousMonth - i
@@ -84,7 +86,7 @@ export class CalendarComponent implements OnInit {
       ...this.daysFromNextMonth,
     ];
 
-    this.month = this.monthName[month];
+    this.month = this.monthName[this.monthNumber];
     this.year = year;
     this.currentWeekDay = weekday;
   }
@@ -95,8 +97,8 @@ export class CalendarComponent implements OnInit {
       this.selectedDay = day;
       this.selectedDate.emit({
         day: this.selectedDay,
-        month: this.currentMonth,
-        year: this.currentYear,
+        month: this.month,
+        year: this.year,
       });
       return;
     }
@@ -106,8 +108,8 @@ export class CalendarComponent implements OnInit {
       this.selectedDay = day;
       this.selectedDate.emit({
         day: this.selectedDay,
-        month: this.currentMonth,
-        year: this.currentYear,
+        month: this.month,
+        year: this.year,
       });
       return;
     }
@@ -115,8 +117,8 @@ export class CalendarComponent implements OnInit {
     this.selectedDay = day;
     this.selectedDate.emit({
       day: this.selectedDay,
-      month: this.currentMonth,
-      year: this.currentYear,
+      month: this.month,
+      year: this.year,
     });
   }
 

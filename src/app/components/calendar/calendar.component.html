@@ -4,7 +4,14 @@
       <p class="calendar__header__date-year">{{ year }}</p>
       <p class="calendar__header__date-month">{{ month }}</p>
     </div>
-    <button>Nova atividade</button>
+    <button
+      routerLink="/new-activity"
+      [queryParams]="{ day: selectedDay,
+      month: monthNumber + 1,
+      year: year, }"
+    >
+      Nova atividade
+    </button>
   </div>
 
   <div
