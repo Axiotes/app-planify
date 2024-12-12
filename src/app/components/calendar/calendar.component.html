@@ -18,11 +18,20 @@
 
     <p
       *ngFor="let day of calendarDays; let i = index"
-      [ngClass]="{ 'current-date': currentDay === i }"
-      [class.other-month]="
-        i < daysFromPreviousMonth.length ||
-        i >= daysFromPreviousMonth.length + daysInMonth.length
-      "
+      (click)="setSelectedDate(day, i)"
+      class="calendar__days-day"
+      [ngClass]="{
+        'current-date': currentDay === i + 1,
+        'selected-day':
+          day === selectedDay &&
+          !(
+            i < daysFromPreviousMonth.length ||
+            i >= daysFromPreviousMonth.length + daysInMonth.length
+          ),
+        'other-month':
+          i < daysFromPreviousMonth.length ||
+          i >= daysFromPreviousMonth.length + daysInMonth.length
+      }"
     >
       {{ day }}
     </p>

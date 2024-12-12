@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './calendar.component.scss',
 })
 export class CalendarComponent implements OnInit {
+  @Output() public emitDate: EventEmitter<number> = new EventEmitter<number>();
   public currentDate: Date = new Date();
   public daysInMonth: number[] = [];
   public daysFromPreviousMonth: number[] = [];
@@ -20,6 +21,7 @@ export class CalendarComponent implements OnInit {
   public currentYear: number = 0;
   public currentWeekDay: number = 0;
   public currentDay: number = 0;
+  public selectedDay: number = 0;
 
   ngOnInit() {
     this.generateCalendar(this.currentDate);
@@ -29,7 +31,7 @@ export class CalendarComponent implements OnInit {
     const year = date.getFullYear();
     const month = date.getMonth();
     const weekday = date.getDay();
-    const day = date.getDate() - 1;
+    const day = date.getDate();
     const monthName = [
       'Janeiro',
       'Fevereiro',
@@ -76,9 +78,29 @@ export class CalendarComponent implements OnInit {
     this.currentYear = year;
     this.currentWeekDay = weekday;
     this.currentDay = day;
+    this.selectedDay = day;
   }
 
-  public changeMonth(offset: number): void {
+  public setSelectedDate(day: number, i: number) {
+    if (i < this.daysFromPreviousMonth.length) {
+      this.changeMonth(-1);
+      this.selectedDay = day;
+      console.log(this.currentMonth, this.selectedDay);
+      return;
+    }
+
+    if (i >= this.daysFromPreviousMonth.length + this.daysInMonth.length) {
+      this.changeMonth(+1);
+      this.selectedDay = day;
+      console.log(this.currentMonth, this.selectedDay);
+      return;
+    }
+
+    this.selectedDay = day;
+    console.log(this.currentMonth, this.selectedDay);
+  }
+
+  private changeMonth(offset: number): void {
     this.currentDate = new Date(
       this.currentDate.getFullYear(),
       this.currentDate.getMonth() + offset,
