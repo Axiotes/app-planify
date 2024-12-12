@@ -1,0 +1,51 @@
+<div class="calendar">
+  <div class="calendar__header">
+    <div class="calendar__header__date">
+      <p class="calendar__header__date-year">{{ year }}</p>
+      <p class="calendar__header__date-month">{{ month }}</p>
+    </div>
+    <button
+      routerLink="/new-activity"
+      [queryParams]="{ day: selectedDay,
+      month: monthNumber + 1,
+      year: year, }"
+    >
+      Nova atividade
+    </button>
+  </div>
+
+  <div
+    class="calendar__days"
+    (touchstart)="touchStart($event)"
+    (touchmove)="touchMove($event)"
+  >
+    <p
+      *ngFor="let day of weekDays; let i = index"
+      [ngClass]="{ 'current-date': currentWeekDay === i }"
+      class="calendar__days-week"
+    >
+      {{ day }}
+    </p>
+
+    <p
+      *ngFor="let day of calendarDays; let i = index"
+      (click)="setSelectedDate(day, i)"
+      class="calendar__days-day"
+      [ngClass]="{
+        'current-date':
+          currentDay === day && currentMonth === month && currentYear === year,
+        'selected-day':
+          day === selectedDay &&
+          !(
+            i < daysFromPreviousMonth.length ||
+            i >= daysFromPreviousMonth.length + daysInMonth.length
+          ),
+        'other-month':
+          i < daysFromPreviousMonth.length ||
+          i >= daysFromPreviousMonth.length + daysInMonth.length
+      }"
+    >
+      {{ day }}
+    </p>
+  </div>
+</div>
