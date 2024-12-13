@@ -1,1 +1,13 @@
-<app-calendar></app-calendar>
+<main class="agenda">
+  <div class="agenda__icons">
+    <img src="/assets/logo.png">
+
+    <div>
+      <i-lucide [img]="user" [size]="20" class="agenda__icons-user"></i-lucide>
+    </div>
+  </div>
+  <app-calendar></app-calendar>
+  <div class="agenda__list">
+    <app-activities-list></app-activities-list>
+  </div>
+</main>
