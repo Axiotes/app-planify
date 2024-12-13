@@ -1,4 +1,5 @@
 export type Activity = {
+  id?: number;
   title: string;
   date: string;
   time: string;

@@ -19,7 +19,7 @@
     @include flex-center();
     justify-content: space-between;
     max-width: 320px;
-    padding: 10%;
+    padding: 5%;
 
     img {
       width: 35px;
@@ -44,5 +44,7 @@
   &__list {
     position: absolute;
     bottom: 0;
+    width: 100%;
+    transition: 0.5s;
   }
 }

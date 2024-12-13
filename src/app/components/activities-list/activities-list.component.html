@@ -1,1 +1,18 @@
-<p>activities-list works!</p>
+<div class="list">
+  <div
+    class="list__touch"
+    (touchstart)="touchStart($event)"
+    (touchmove)="touchMove($event)"
+  >
+    <i-lucide
+      [img]="minus"
+      [size]="65"
+      class="list__touch-icon"
+      (touchstart)="touchStart($event)"
+      (touchmove)="touchMove($event)"
+    ></i-lucide>
+  </div>
+  <div>
+    <app-activities></app-activities>
+  </div>
+</div>
