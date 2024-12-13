@@ -52,6 +52,12 @@ export class CalendarComponent implements OnInit {
     this.currentMonth = this.monthName[this.currentDate.getMonth()];
     this.currentYear = this.currentDate.getFullYear();
     this.selectedDay = this.currentDate.getDate();
+    this.selectedDate.emit({
+      day: this.selectedDay,
+      month: this.month,
+      monthNumber: this.monthNumber,
+      year: this.year,
+    });
   }
 
   public generateCalendar(date: Date): void {
@@ -59,7 +65,11 @@ export class CalendarComponent implements OnInit {
     this.monthNumber = date.getMonth();
     const weekday = date.getDay();
 
-    const daysInCurrentMonth = new Date(year, this.monthNumber + 1, 0).getDate();
+    const daysInCurrentMonth = new Date(
+      year,
+      this.monthNumber + 1,
+      0
+    ).getDate();
     this.daysInMonth = Array.from(
       { length: daysInCurrentMonth },
       (_, i) => i + 1
@@ -98,6 +108,7 @@ export class CalendarComponent implements OnInit {
       this.selectedDate.emit({
         day: this.selectedDay,
         month: this.month,
+        monthNumber: this.monthNumber,
         year: this.year,
       });
       return;
@@ -109,6 +120,7 @@ export class CalendarComponent implements OnInit {
       this.selectedDate.emit({
         day: this.selectedDay,
         month: this.month,
+        monthNumber: this.monthNumber,
         year: this.year,
       });
       return;
@@ -118,6 +130,7 @@ export class CalendarComponent implements OnInit {
     this.selectedDate.emit({
       day: this.selectedDay,
       month: this.month,
+      monthNumber: this.monthNumber,
       year: this.year,
     });
   }

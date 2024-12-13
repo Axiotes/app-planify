@@ -6,8 +6,11 @@
       <i-lucide [img]="user" [size]="20" class="agenda__icons-user"></i-lucide>
     </div>
   </div>
-  <app-calendar></app-calendar>
+  <app-calendar (selectedDate)="selectedDate($event)"></app-calendar>
   <div class="agenda__list" [ngStyle]="{ height: height + '%' }">
-    <app-activities-list (changeHeight)="height = $event"></app-activities-list>
+    <app-activities-list
+      (changeHeight)="height = $event"
+      [date]="date"
+    ></app-activities-list>
   </div>
 </main>

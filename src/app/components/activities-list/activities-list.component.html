@@ -12,7 +12,15 @@
       (touchmove)="touchMove($event)"
     ></i-lucide>
   </div>
-  <div>
+  <div class="list__date">
+    <span>
+      <h2 *ngIf="date.day === currentDay - 1">Ontem -</h2>
+      <h2 *ngIf="date.day === currentDay + 1">Amanhã -</h2>
+      <h2 *ngIf="date.day === currentDay">Hoje -</h2>
+      <h2>Dia {{ date.day }}, {{ weekDays[weekDay] }}</h2>
+    </span>
+  </div>
+  <div class="list__activities">
     <app-activities></app-activities>
   </div>
 </div>

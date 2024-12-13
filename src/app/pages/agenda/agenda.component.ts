@@ -4,6 +4,7 @@ import { LucideAngularModule, User } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 import { ActivitiesListComponent } from '../../components/activities-list/activities-list.component';
 import { NgStyle } from '@angular/common';
+import { CurrentDate } from '../../../types/date.type';
 
 @Component({
   selector: 'app-agenda',
@@ -20,5 +21,10 @@ import { NgStyle } from '@angular/common';
 export class AgendaComponent {
   public user: LucideIconData = User;
 
+  public date!: CurrentDate;
   public height: number = 40;
+
+  public selectedDate(date: CurrentDate): void {
+    this.date = date;
+  }
 }
