@@ -44,7 +44,6 @@ export class AgendaComponent implements OnInit {
 
       this.apiRequestsServices.activities(date).subscribe({
         next: (res) => {
-          console.log(res);
           this.activities = res.activities;
         },
         error: (err) => {
