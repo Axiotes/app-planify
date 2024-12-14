@@ -65,7 +65,7 @@ export class ApiRequestsService {
     date: string
   ): Observable<{ message: string; activities: Activity[] }> {
     return this.http.get<{ message: string; activities: Activity[] }>(
-      `${this.baseUrl}/activities/${date}`
+      `${this.baseUrl}/activities/date/${date}`
     );
   }
 }

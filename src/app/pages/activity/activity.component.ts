@@ -178,7 +178,7 @@ export class ActivityComponent implements OnInit {
         this.formActivity.setValue(activity);
       },
       error: (err) => {
-        this.snackBarMessage(err.error.message);
+        this.snackBarMessage(err.error.message, '/agenda');
       },
     });
   }
