@@ -10,8 +10,8 @@ export class TrucatePipe implements PipeTransform {
       return '';
     }
 
-    if (value.length > 30) {
-      value = `${value.slice(0, 27)}...`;
+    if (value.length > 35) {
+      value = `${value.slice(0, 32)}...`;
     }
 
     return value;
