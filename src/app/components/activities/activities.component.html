@@ -1,1 +1,18 @@
-<p>activities works!</p>
+<div class="activities">
+  <label class="custom-checkbox">
+    <input type="checkbox" id="checkbox1" formControlName="alert" />
+    <span class="checkmark"></span>
+  </label>
+  <div class="activities__details">
+    <h3>Ir a academia</h3>
+    <div class="activities__details__priority">
+      <p>08:30</p>
+      <i-lucide
+        class="activities__details__priority-icon"
+        [size]="18"
+        *ngFor="let star of stars.slice(0, priority)"
+        [img]="star"
+      ></i-lucide>
+    </div>
+  </div>
+</div>
