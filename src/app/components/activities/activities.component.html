@@ -3,10 +3,10 @@
     <input type="checkbox" id="checkbox1" formControlName="alert" />
     <span class="checkmark"></span>
   </label>
-  <div class="activities__details">
-    <h3>Ir a academia</h3>
+  <div class="activities__details" routerLink="/edit-activity/{{ id }}">
+    <h3>{{ title | trucate }}</h3>
     <div class="activities__details__priority">
-      <p>08:30</p>
+      <p>{{ time | time }}</p>
       <i-lucide
         class="activities__details__priority-icon"
         [size]="18"
