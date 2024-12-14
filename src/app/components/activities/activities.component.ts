@@ -18,5 +18,6 @@ export class ActivitiesComponent {
   @Input() public title!: string;
   @Input() public time!: string;
   @Input() public priority!: number;
+  @Input() public done!: boolean;
   public stars: LucideIconData[] = [Star, Star, Star];
 }

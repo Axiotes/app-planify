@@ -6,4 +6,5 @@ export type Activity = {
   description: string;
   priority: number;
   alert: boolean;
+  done: boolean;
 };
