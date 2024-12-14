@@ -21,6 +21,15 @@
     </span>
   </div>
   <div class="list__activities">
-    <app-activities></app-activities>
+    <app-activities
+      *ngFor="let activity of activities"
+      [id]="activity.id"
+      [title]="activity.title"
+      [time]="activity.time"
+      [priority]="activity.priority"
+    ></app-activities>
+    <h3 *ngIf="activities && activities.length === 0">
+      Você não tem nenhuma atividade para esse dia
+    </h3>
   </div>
 </div>

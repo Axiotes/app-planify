@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './activities.component.scss',
 })
 export class ActivitiesComponent {
-  @Input() public id!: number;
+  @Input() public id?: number;
   @Input() public title!: string;
   @Input() public time!: string;
   @Input() public priority!: number;

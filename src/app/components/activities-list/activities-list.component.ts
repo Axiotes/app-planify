@@ -12,12 +12,12 @@ import { LucideIconData } from 'lucide-angular/icons/types';
 import { Activity } from '../../../types/activity.type';
 import { ActivitiesComponent } from '../activities/activities.component';
 import { CurrentDate } from '../../../types/date.type';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-activities-list',
   standalone: true,
-  imports: [LucideAngularModule, ActivitiesComponent, NgIf],
+  imports: [LucideAngularModule, ActivitiesComponent, NgIf, NgFor],
   templateUrl: './activities-list.component.html',
   styleUrl: './activities-list.component.scss',
 })

@@ -29,9 +29,7 @@ export class ApiRequestsService {
   }
 
   public userInfo(): Observable<{ email: string }> {
-    return this.http.get<{ email: string }>(
-      `${this.baseUrl}/user/infos`
-    );
+    return this.http.get<{ email: string }>(`${this.baseUrl}/user/infos`);
   }
 
   public verifyUser(): Observable<ApiResponse> {
@@ -60,6 +58,14 @@ export class ApiRequestsService {
     return this.http.patch<ApiResponse>(
       `${this.baseUrl}/activities/update/${id}`,
       activity
+    );
+  }
+
+  public activities(
+    date: string
+  ): Observable<{ message: string; activities: Activity[] }> {
+    return this.http.get<{ message: string; activities: Activity[] }>(
+      `${this.baseUrl}/activities/${date}`
     );
   }
 }

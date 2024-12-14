@@ -55,7 +55,7 @@ export class CalendarComponent implements OnInit {
     this.selectedDate.emit({
       day: this.selectedDay,
       month: this.month,
-      monthNumber: this.monthNumber,
+      monthNumber: this.monthNumber + 1,
       year: this.year,
     });
   }
@@ -130,7 +130,7 @@ export class CalendarComponent implements OnInit {
     this.selectedDate.emit({
       day: this.selectedDay,
       month: this.month,
-      monthNumber: this.monthNumber,
+      monthNumber: this.monthNumber + 1,
       year: this.year,
     });
   }
