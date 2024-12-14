@@ -119,16 +119,41 @@ export class ActivityComponent implements OnInit {
   }
 
   private setDate(): void {
-    if (this.date === '') {
-      const year = new Date().getFullYear();
-      const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
-      const day = new Date().getDate().toString().padStart(2, '0');
+    this.activatedRoute.queryParams.subscribe((params) => {
+      let yearParam = params['year'];
+      let monthParam = params['month'];
+      let dayParam = params['day'];
 
-      const date = `${day}${month}${year}`;
-      const formatDate = this.datePipe.transform(date);
+      let dates = '';
+
+      if (!yearParam && !monthParam && !dayParam) {
+        const currentYear = new Date().getFullYear();
+        const currentMonth = (new Date().getMonth() + 1)
+          .toString()
+          .padStart(2, '0');
+        const currentDay = new Date().getDate().toString().padStart(2, '0');
+
+        dates = `${currentDay}${currentMonth}${currentYear}`;
+        const formatDate = this.datePipe.transform(dates);
+
+        this.formActivity.controls['date'].setValue(formatDate);
+
+        return;
+      }
+
+      if (dayParam.length === 1) {
+        dayParam = `0${dayParam}`;
+      }
+
+      if (monthParam.length === 1) {
+        monthParam = `0${monthParam}`;
+      }
+
+      dates = `${dayParam}${monthParam}${yearParam}`;
+      const formatDate = this.datePipe.transform(dates);
 
       this.formActivity.controls['date'].setValue(formatDate);
-    }
+    });
   }
 
   private getActivity(): void {
