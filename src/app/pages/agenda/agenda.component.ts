@@ -38,6 +38,10 @@ export class AgendaComponent implements OnInit {
     this.getActivities();
   }
 
+  public doneActivity(done: { id?: number; value: boolean }): void {
+    this.apiRequestsServices.doneActivity(done).subscribe();
+  }
+
   private getActivities(): void {
     if (this.date) {
       const date = `${this.date.day}${this.date.monthNumber}${this.date.year}`;

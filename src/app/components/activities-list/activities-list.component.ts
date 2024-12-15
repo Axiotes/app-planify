@@ -24,6 +24,8 @@ import { NgFor, NgIf } from '@angular/common';
 export class ActivitiesListComponent implements OnInit, OnChanges {
   @Output() public changeHeight: EventEmitter<number> =
     new EventEmitter<number>();
+  @Output() public markDone: EventEmitter<{ id?: number; value: boolean }> =
+    new EventEmitter<{ id?: number; value: boolean }>();
   @Input() public activities!: Activity[];
   @Input() public date!: CurrentDate;
   public currentDay: number = new Date().getDate();
@@ -89,5 +91,9 @@ export class ActivitiesListComponent implements OnInit, OnChanges {
         }
       }
     }
+  }
+
+  public doneActivity(done: { id?: number; value: boolean }): void {
+    this.markDone.emit(done);
   }
 }

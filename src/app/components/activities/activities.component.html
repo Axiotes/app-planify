@@ -1,6 +1,6 @@
 <div class="activities">
   <label class="custom-checkbox">
-    <input type="checkbox" [(ngModel)]="done" />
+    <input type="checkbox" [(ngModel)]="done" (click)="doneActivity()" />
     <span class="checkmark"></span>
   </label>
   <div class="activities__details" routerLink="/edit-activity/{{ id }}">
