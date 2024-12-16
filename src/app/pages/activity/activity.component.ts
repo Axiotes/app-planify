@@ -193,6 +193,8 @@ export class ActivityComponent implements OnInit {
       this.formActivity.controls['priority'].setValue(2);
     }
 
+    this.formatDateToAPI();
+
     this.apiRequestService.newActivity(this.formActivity.value).subscribe({
       next: (res) => {
         this.snackBarMessage(res.message, '/agenda');
@@ -232,5 +234,16 @@ export class ActivityComponent implements OnInit {
     if (navigate) {
       this.router.navigateByUrl(navigate);
     }
+  }
+
+  private formatDateToAPI(): void {
+    const numbers = this.date.split('/');
+    let date = '';
+
+    numbers.forEach((number) => {
+      date = date + number;
+    });
+
+    this.formActivity.controls['date'].setValue(date);
   }
 }
