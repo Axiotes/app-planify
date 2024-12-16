@@ -68,4 +68,14 @@ export class ApiRequestsService {
       `${this.baseUrl}/activities/date/${date}`
     );
   }
+
+  public doneActivity(done: {
+    id?: number;
+    value: boolean;
+  }): Observable<ApiResponse> {
+    return this.http.patch<ApiResponse>(
+      `${this.baseUrl}/activities/done/${done.id}`,
+      { done: done.value }
+    );
+  }
 }

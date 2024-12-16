@@ -10,6 +10,7 @@
   <div class="agenda__list" [ngStyle]="{ height: height + '%' }">
     <app-activities-list
       (changeHeight)="height = $event"
+      (markDone)="doneActivity($event)"
       [date]="date"
       [activities]="activities"
     ></app-activities-list>
