@@ -7,6 +7,7 @@ import { NgStyle } from '@angular/common';
 import { CurrentDate } from '../../../types/date.type';
 import { ApiRequestsService } from '../../services/api-requests.service';
 import { Activity } from '../../../types/activity.type';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-agenda',
@@ -16,6 +17,7 @@ import { Activity } from '../../../types/activity.type';
     LucideAngularModule,
     ActivitiesListComponent,
     NgStyle,
+    RouterLink
   ],
   templateUrl: './agenda.component.html',
   styleUrl: './agenda.component.scss',
