@@ -6,7 +6,10 @@
       <i-lucide [img]="user" [size]="20" class="agenda__icons-user"></i-lucide>
     </div>
   </div>
-  <app-calendar (selectedDate)="selectedDate($event)"></app-calendar>
+  <div class="agenda__calendar">
+    <app-calendar (selectedDate)="selectedDate($event)"></app-calendar>
+    <p>&bull; Arraste para os lados para passar os meses</p>
+  </div>
   <div class="agenda__list" [ngStyle]="{ height: height + '%' }">
     <app-activities-list
       (changeHeight)="height = $event"
