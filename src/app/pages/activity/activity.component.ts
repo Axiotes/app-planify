@@ -105,7 +105,6 @@ export class ActivityComponent implements OnInit {
   public navigate(route: string) {
     this.dialog
       .open(ModalComponent, {
-        width: '400px',
         data: {
           description: 'Alterações não salvas serão perdidas',
         },
