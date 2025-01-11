@@ -17,7 +17,7 @@ import { RouterLink } from '@angular/router';
     LucideAngularModule,
     ActivitiesListComponent,
     NgStyle,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './agenda.component.html',
   styleUrl: './agenda.component.scss',
@@ -46,7 +46,10 @@ export class AgendaComponent implements OnInit {
 
   private getActivities(): void {
     if (this.date) {
-      const date = `${this.date.day}${this.date.monthNumber}${this.date.year}`;
+      const date =
+        this.date.monthNumber < 10
+          ? `${this.date.day}0${this.date.monthNumber}${this.date.year}`
+          : `${this.date.day}${this.date.monthNumber}${this.date.year}`;
 
       this.apiRequestsServices.activities(date).subscribe({
         next: (res) => {
